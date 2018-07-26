@@ -31,7 +31,11 @@ if [ "$1" = 'redis-cluster' ]; then
 
     # If IP is unset then discover it
     if [ -z "$IP" ]; then
-        IP=`ifconfig | grep "inet 17" | xargs | cut -d " " -f2`
+      # Debian 8
+      # inet addr:172.18.0.20  Bcast:172.18.255.255  Mask:255.255.0.0
+      # Debian 9
+      # inet 172.18.0.4  netmask 255.255.0.0  broadcast 0.0.0.0
+      IP=`ifconfig | grep "inet .*172" | sed -e "s/^[^1]*//" -e "s/ .*//"`
     fi
     echo "yes" | ruby /redis/src/redis-trib.rb create --replicas 1 ${IP}:7000 ${IP}:7001 ${IP}:7002 ${IP}:7003 ${IP}:7004 ${IP}:7005
     tail -f /var/log/supervisor/redis*.log
