@@ -15,6 +15,14 @@ autorestart=true
 }
 
 result_str="
+[inet_http_server]
+port=127.0.0.1:9001
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+
 [supervisord]
 nodaemon=false
 "

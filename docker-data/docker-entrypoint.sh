@@ -35,7 +35,9 @@ if [ "$1" = 'redis-cluster' ]; then
       # inet addr:172.18.0.20  Bcast:172.18.255.255  Mask:255.255.0.0
       # Debian 9
       # inet 172.18.0.4  netmask 255.255.0.0  broadcast 0.0.0.0
-      IP=`ifconfig | grep "inet .*172" | sed -e "s/^[^1]*//" -e "s/ .*//"`
+      IP=`ifconfig | awk '/inet (addr:)?/ && !/inet (addr:)?127/ {
+        sub(/addr:/, "", $2); print $2; exit;
+      }'`
     fi
     echo "yes" | ruby /redis/src/redis-trib.rb create --replicas 1 ${IP}:7000 ${IP}:7001 ${IP}:7002 ${IP}:7003 ${IP}:7004 ${IP}:7005
     tail -f /var/log/supervisor/redis*.log
