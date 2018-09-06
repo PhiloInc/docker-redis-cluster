@@ -13,6 +13,7 @@ RUN apt-get update -qq && \
     apt-get clean -yqq
 
 # # Ensure UTF-8 lang and locale
+RUN sed -Ei 's/^#[[:space:]]*(en_US.UTF-8[[:space:]].*)$/\1/' /etc/locale.gen
 RUN locale-gen en_US.UTF-8
 ENV LANG       en_US.UTF-8
 ENV LC_ALL     en_US.UTF-8
