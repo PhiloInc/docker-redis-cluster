@@ -23,7 +23,7 @@ ENV SSL_CERT_FILE=/usr/local/etc/openssl/cert.pem
 
 RUN gem install redis -v 3.3.3
 
-RUN apt-get install -y gcc make g++ build-essential libc6-dev tcl git supervisor ruby wget
+RUN apt-get install --fix-missing -y gcc make g++ build-essential libc6-dev tcl git supervisor ruby wget
 
 ARG redis_version=4.0.10
 
